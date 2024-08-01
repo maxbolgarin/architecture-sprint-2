@@ -12,7 +12,7 @@ docker compose exec -T shard2 mongosh <<EOF
 rs.initiate({_id:"shard2",members:[{_id:0,host:"shard2:27019"}]})
 EOF
 
-docker compose exec -T configSrv mongosh <<EOF
+docker compose exec -T mongos_router mongosh <<EOF
 sh.addShard( "shard1/shard1:27018")
 sh.addShard( "shard2/shard2:27019")
 sh.enableSharding("somedb")
