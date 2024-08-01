@@ -8,7 +8,10 @@ services:
       dockerfile: Dockerfile
     image: kazhem/pymongo_api:1.0.0
     depends_on:
-      - mongodb1
+      - configSrv
+      - shard1
+      - shard2
+      - mongos_router
     ports:
       - 8080:8080
     environment:
