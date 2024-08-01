@@ -1,0 +1,115 @@
+name: mongo-sharding-repl
+
+services:
+  pymongo_api:
+    container_name: pymongo_api
+    build: 
+      context: api_app
+      dockerfile: Dockerfile
+    image: kazhem/pymongo_api:1.0.0
+    depends_on:
+      - configSrv
+      - shard1-1
+      - shard1-2
+      - shard1-3
+      - shard2-1
+      - shard2-2
+      - shard2-3
+      - mongos_router
+    ports:
+      - 8080:8080
+    environment:
+      MONGODB_URL: "mongodb://mongos_router:27017"
+      MONGODB_DATABASE_NAME: "somedb"
+
+  mongos_router:
+    image: mongo:latest
+    container_name: mongos_router
+    ports:
+      - 27017:27017
+    command: mongos --port 27017 --configdb config_server/configSrv:27017 --bind_ip_all
+    healthcheck: &healthcheck
+      test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
+      interval: 5s
+      start_period: 10s
+
+  configSrv:
+    image: mongo:latest
+    container_name: configSrv 
+    ports:
+      - 27019:27017
+    command: mongod --port 27017 --configsvr --replSet config_server
+    healthcheck: *healthcheck
+    volumes:
+      - config-data:/data/db
+
+
+  shard1-1:
+    image: mongo:latest
+    container_name: shard1-1
+    ports:
+      - 27711:27017
+    command: mongod --port 27017  --replSet shard1
+    healthcheck: *healthcheck
+    volumes:
+      - shard1-1-data:/data/db
+
+  shard1-2:
+    image: mongo:latest
+    container_name: shard1-2
+    ports:
+      - 27712:27017
+    command: mongod --port 27017  --replSet shard1
+    healthcheck: *healthcheck
+    volumes:
+      - shard1-2-data:/data/db
+    
+  shard1-3:
+    image: mongo:latest
+    container_name: shard1-3
+    ports:
+      - 27713:27017
+    command: mongod --port 27017  --replSet shard1
+    healthcheck: *healthcheck
+    volumes:
+      - shard1-3-data:/data/db
+
+
+  shard2-1:
+    image: mongo:latest
+    container_name: shard2-1
+    ports:
+      - 27721:27017
+    command: mongod --port 27017  --replSet shard2
+    healthcheck: *healthcheck
+    volumes:
+      - shard2-1-data:/data/db
+
+  shard2-2:
+    image: mongo:latest
+    container_name: shard2-2
+    ports:
+      - 27722:27017
+    command: mongod --port 27017  --replSet shard2
+    healthcheck: *healthcheck
+    volumes:
+      - shard2-2-data:/data/db
+    
+  shard2-3:
+    image: mongo:latest
+    container_name: shard2-3
+    ports:
+      - 27723:27017
+    command: mongod --port 27017  --replSet shard2
+    healthcheck: *healthcheck
+    volumes:
+      - shard2-3-data:/data/db
+
+volumes:
+  config-data:
+  shard1-1-data:
+  shard1-2-data:
+  shard1-3-data:
+  shard2-1-data:
+  shard2-2-data:
+  shard2-3-data:
