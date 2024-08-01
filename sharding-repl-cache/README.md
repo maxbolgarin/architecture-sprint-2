@@ -1,6 +1,6 @@
 # mongo-sharding
 
-## Как првоерить
+## Как проверить
 
 ```shell
 curl localhost:8080
