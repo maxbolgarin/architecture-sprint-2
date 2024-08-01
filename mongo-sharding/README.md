@@ -2,13 +2,23 @@
 
 ## Как запустить
 
-* **Шаг 1.** Запускаем mongodb и приложение
+* Запускаем mongodb и приложение
 
 ```shell
 docker compose up -d
 ```
 
-* **Шаг 2.** Настройка сервера конфигурации
+
+### Автоматическая настройка
+
+```shell
+./mongo-init.sh
+```
+
+
+### Ручная настройка
+
+* **Шаг 1.** Настройка сервера конфигурации
     * Настройка сервера конфигурации: поключение
     ```shell
     docker exec -it configSrv mongosh --port 27017
@@ -27,7 +37,7 @@ docker compose up -d
     );
     ```
 
-* **Шаг 3.** Настройка шардов
+* **Шаг 2.** Настройка шардов
     * Настройка шарда 1: поключение
     ```shell
     docker exec -it shard1 mongosh --port 27018
@@ -60,7 +70,7 @@ docker compose up -d
     );
     ```
 
-* **Шаг 4.** Настройка роутера
+* **Шаг 3.** Настройка роутера
     * Настройка роутера: поключение
     ```shell
     docker exec -it mongos_router mongosh --port 27020
@@ -74,7 +84,14 @@ docker compose up -d
     sh.shardCollection("somedb.helloDoc", { "name" : "hashed" } )
     ```
 
-* **Шаг 5.** Загрузка данных
-```shell
-./mongo-init.sh
-```
+* **Шаг 4.** Загрузка данных
+    * Поключение
+    ```shell
+    docker exec -it mongos_router mongosh --port 27020
+    ```
+    * Загрузка
+    ```js
+    use somedb
+    for(var i = 0; i < 1000; i++) db.helloDoc.insertOne({age:i, name:"ly"+i})
+    ```
+    
