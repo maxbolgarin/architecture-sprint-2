@@ -80,7 +80,7 @@ services:
         ipv4_address: 173.16.0.12
     volumes:
       - shard1-2-data:/data/db
-    command: ["--shardsvr", "--replSet", "shard1", "--bind_ip_all", "--port", "27012"]
+    command: ["--replSet", "shard1", "--bind_ip_all", "--port", "27012"]
     healthcheck: *healthcheck
     
   shard1-3:
@@ -94,7 +94,7 @@ services:
         ipv4_address: 173.16.0.13
     volumes:
       - shard1-3-data:/data/db
-    command: ["--shardsvr", "--replSet", "shard1", "--bind_ip_all", "--port", "27013"]
+    command: ["--replSet", "shard1", "--bind_ip_all", "--port", "27013"]
     healthcheck: *healthcheck
 
 
@@ -123,7 +123,7 @@ services:
         ipv4_address: 173.16.0.22
     volumes:
       - shard2-2-data:/data/db
-    command: ["--shardsvr", "--replSet", "shard2", "--bind_ip_all", "--port", "27022"]
+    command: ["--replSet", "shard2", "--bind_ip_all", "--port", "27022"]
     healthcheck: *healthcheck
     
   shard2-3:
@@ -137,7 +137,7 @@ services:
         ipv4_address: 173.16.0.23
     volumes:
       - shard2-3-data:/data/db
-    command: ["--shardsvr", "--replSet", "shard2", "--bind_ip_all", "--port", "27023"]
+    command: ["--replSet", "shard2", "--bind_ip_all", "--port", "27023"]
     healthcheck: *healthcheck
 
 networks:
