@@ -19,7 +19,7 @@ services:
     ports:
       - 8080:8080
     networks:
-      app-network:
+      app-network-2:
         ipv4_address: 173.17.0.5
     environment:
       MONGODB_URL: "mongodb://mongos_router:27017"
@@ -32,7 +32,7 @@ services:
     ports:
       - "27017:27017"
     networks:
-      app-network:
+      app-network-2:
         ipv4_address: 173.17.0.7
     command: ["mongos", "--configdb", "config_server/configSrv:27019", "--bind_ip_all", "--port", "27017"]
     healthcheck: &healthcheck
@@ -47,7 +47,7 @@ services:
     ports:
       - "27019:27019"
     networks:
-      app-network:
+      app-network-2:
         ipv4_address: 173.17.0.9
     volumes:
       - config-data:/data/db
@@ -62,7 +62,7 @@ services:
     ports:
       - "27011:27018"
     networks:
-      app-network:
+      app-network-2:
         ipv4_address: 173.17.0.11
     volumes:
       - shard1-1-data:/data/db
@@ -76,7 +76,7 @@ services:
     ports:
       - "27012:27018"
     networks:
-      app-network:
+      app-network-2:
         ipv4_address: 173.17.0.12
     volumes:
       - shard1-2-data:/data/db
@@ -90,7 +90,7 @@ services:
     ports:
       - "27013:27018"
     networks:
-      app-network:
+      app-network-2:
         ipv4_address: 173.17.0.13
     volumes:
       - shard1-3-data:/data/db
@@ -105,7 +105,7 @@ services:
     ports:
       - "27021:27018"
     networks:
-      app-network:
+      app-network-2:
         ipv4_address: 173.17.0.21
     volumes:
       - shard2-1-data:/data/db
@@ -119,7 +119,7 @@ services:
     ports:
       - "27022:27018"
     networks:
-      app-network:
+      app-network-2:
         ipv4_address: 173.17.0.22
     volumes:
       - shard2-2-data:/data/db
@@ -133,7 +133,7 @@ services:
     ports:
       - "27023:27018"
     networks:
-      app-network:
+      app-network-2:
         ipv4_address: 173.17.0.23
     volumes:
       - shard2-3-data:/data/db
@@ -141,7 +141,7 @@ services:
     healthcheck: *healthcheck
 
 networks:
-  app-network:
+  app-network-2:
     driver: bridge
     ipam:
       driver: default
