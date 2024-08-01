@@ -44,7 +44,7 @@ services:
     volumes:
       - shard1-data:/data/db
     command: ["--shardsvr", "--replSet", "shard1", "--bind_ip_all", "--port", "27018"]
-    healthcheck: *healthceck
+    healthcheck: *healthcheck
 
   shard2:
     image: mongo:latest
@@ -58,7 +58,7 @@ services:
     volumes:
       - shard2-data:/data/db
     command: ["--shardsvr", "--replSet", "shard2", "--bind_ip_all", "--port", "27019"]
-    healthcheck: *healthceck
+    healthcheck: *healthcheck
   
   mongos_router:
     image: mongo:latest
@@ -70,7 +70,7 @@ services:
       app-network:
         ipv4_address: 173.17.0.7
     command: ["mongos", "--configdb", "config_server/configSrv:27017", "--bind_ip_all", "--port", "27020"]
-    healthcheck: *healthceck
+    healthcheck: *healthcheck
 
 networks:
   app-network:
