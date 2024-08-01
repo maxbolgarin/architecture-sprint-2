@@ -49,7 +49,7 @@ services:
     container_name: shard1-1
     ports:
       - 27711:27017
-    command: mongod --port 27017 --shardsvr --replSet shard1
+    command: mongod --port 27017  --replSet shard1
     healthcheck: *healthcheck
     volumes:
       - shard1-1-data:/data/db
@@ -59,7 +59,7 @@ services:
     container_name: shard1-2
     ports:
       - 27712:27017
-    command: mongod --port 27017 --shardsvr --replSet shard1
+    command: mongod --port 27017  --replSet shard1
     healthcheck: *healthcheck
     volumes:
       - shard1-2-data:/data/db
@@ -69,7 +69,7 @@ services:
     container_name: shard1-3
     ports:
       - 27713:27017
-    command: mongod --port 27017 --shardsvr --replSet shard1
+    command: mongod --port 27017  --replSet shard1
     healthcheck: *healthcheck
     volumes:
       - shard1-3-data:/data/db
@@ -80,7 +80,7 @@ services:
     container_name: shard2-1
     ports:
       - 27721:27017
-    command: mongod --port 27017 --shardsvr --replSet shard2
+    command: mongod --port 27017  --replSet shard2
     healthcheck: *healthcheck
     volumes:
       - shard2-1-data:/data/db
@@ -90,7 +90,7 @@ services:
     container_name: shard2-2
     ports:
       - 27722:27017
-    command: mongod --port 27017 --shardsvr --replSet shard2
+    command: mongod --port 27017  --replSet shard2
     healthcheck: *healthcheck
     volumes:
       - shard2-2-data:/data/db
@@ -100,7 +100,7 @@ services:
     container_name: shard2-3
     ports:
       - 27723:27017
-    command: mongod --port 27017 --shardsvr --replSet shard2
+    command: mongod --port 27017  --replSet shard2
     healthcheck: *healthcheck
     volumes:
       - shard2-3-data:/data/db
