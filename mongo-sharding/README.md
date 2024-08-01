@@ -7,14 +7,14 @@ curl localhost:8080
 curl localhost:8080/helloDoc/count
 
 docker exec -it shard1 mongosh --port 27018
- > use somedb;
- > db.helloDoc.countDocuments();
- > exit();
+use somedb;
+db.helloDoc.countDocuments();
+exit();
 
 docker exec -it shard2 mongosh --port 27019
- > use somedb;
- > db.helloDoc.countDocuments();
- > exit(); 
+use somedb;
+db.helloDoc.countDocuments();
+exit(); 
 ```
 
 ## Как запустить
