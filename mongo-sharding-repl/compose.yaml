@@ -18,9 +18,6 @@ services:
       - mongos_router
     ports:
       - 8080:8080
-    networks:
-      app-network-2:
-        ipv4_address: 173.16.0.5
     environment:
       MONGODB_URL: "mongodb://mongos_router:27017"
       MONGODB_DATABASE_NAME: "somedb"
@@ -28,13 +25,9 @@ services:
   mongos_router:
     image: mongo:latest
     container_name: mongos_router
-    restart: always
     ports:
-      - "27017:27017"
-    networks:
-      app-network-2:
-        ipv4_address: 173.16.0.7
-    command: ["mongos", "--configdb", "config_server/configSrv:27019", "--bind_ip_all", "--port", "27017"]
+      - 27017:27017
+    command: mongos --port 27017 --configdb config_server/configSrv:27017 --bind_ip_all
     healthcheck: &healthcheck
       test: [ "CMD", "mongo", "--eval", "db.adminCommand('ping')" ]
       interval: 5s
@@ -43,110 +36,74 @@ services:
   configSrv:
     image: mongo:latest
     container_name: configSrv 
-    restart: always
     ports:
-      - "27019:27019"
-    networks:
-      app-network-2:
-        ipv4_address: 173.16.0.9
+      - 27019:27017
+    command: mongod --port 27017 --configsvr --replSet config_server
+    healthcheck: *healthcheck
     volumes:
       - config-data:/data/db
-    command: ["--configsvr", "--replSet", "config_server", "--bind_ip_all", "--port", "27019"] 
-    healthcheck: *healthcheck
 
 
   shard1-1:
     image: mongo:latest
     container_name: shard1-1
-    restart: always
     ports:
-      - "27011:27011"
-    networks:
-      app-network-2:
-        ipv4_address: 173.16.0.11
-    volumes:  
-      - shard1-1-data:/data/db
-    command: ["--shardsvr", "--replSet", "shard1", "--bind_ip_all", "--port", "27011"]
+      - 27711:27017
+    command: mongod --port 27017 --shardsvr --replSet shard1
     healthcheck: *healthcheck
+    volumes:
+      - shard1-1-data:/data/db
 
   shard1-2:
     image: mongo:latest
     container_name: shard1-2
-    restart: always
     ports:
-      - "27012:27012"
-    networks:
-      app-network-2:
-        ipv4_address: 173.16.0.12
+      - 27712:27017
+    command: mongod --port 27017 --shardsvr --replSet shard1
+    healthcheck: *healthcheck
     volumes:
       - shard1-2-data:/data/db
-    command: ["--replSet", "shard1", "--bind_ip_all", "--port", "27012"]
-    healthcheck: *healthcheck
     
   shard1-3:
     image: mongo:latest
     container_name: shard1-3
-    restart: always
     ports:
-      - "27013:27013"
-    networks:
-      app-network-2:
-        ipv4_address: 173.16.0.13
+      - 27713:27017
+    command: mongod --port 27017 --shardsvr --replSet shard1
+    healthcheck: *healthcheck
     volumes:
       - shard1-3-data:/data/db
-    command: ["--replSet", "shard1", "--bind_ip_all", "--port", "27013"]
-    healthcheck: *healthcheck
 
 
   shard2-1:
     image: mongo:latest
     container_name: shard2-1
-    restart: always
     ports:
-      - "27021:27021"
-    networks:
-      app-network-2:
-        ipv4_address: 173.16.0.21
+      - 27721:27017
+    command: mongod --port 27017 --shardsvr --replSet shard2
+    healthcheck: *healthcheck
     volumes:
       - shard2-1-data:/data/db
-    command: ["--shardsvr", "--replSet", "shard2", "--bind_ip_all", "--port", "27021"]
-    healthcheck: *healthcheck
 
   shard2-2:
     image: mongo:latest
     container_name: shard2-2
-    restart: always
     ports:
-      - "27022:27022"
-    networks:
-      app-network-2:
-        ipv4_address: 173.16.0.22
+      - 27722:27017
+    command: mongod --port 27017 --shardsvr --replSet shard2
+    healthcheck: *healthcheck
     volumes:
       - shard2-2-data:/data/db
-    command: ["--replSet", "shard2", "--bind_ip_all", "--port", "27022"]
-    healthcheck: *healthcheck
     
   shard2-3:
     image: mongo:latest
     container_name: shard2-3
-    restart: always
     ports:
-      - "27023:27023"
-    networks:
-      app-network-2:
-        ipv4_address: 173.16.0.23
+      - 27723:27017
+    command: mongod --port 27017 --shardsvr --replSet shard2
+    healthcheck: *healthcheck
     volumes:
       - shard2-3-data:/data/db
-    command: ["--replSet", "shard2", "--bind_ip_all", "--port", "27023"]
-    healthcheck: *healthcheck
-
-networks:
-  app-network-2:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 173.16.0.0/16
 
 volumes:
   config-data:
