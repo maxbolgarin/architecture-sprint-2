@@ -60,13 +60,13 @@ services:
     container_name: shard1-1
     restart: always
     ports:
-      - "27011:27018"
+      - "27011:27011"
     networks:
       app-network-2:
         ipv4_address: 173.16.0.11
-    volumes:
+    volumes:  
       - shard1-1-data:/data/db
-    command: ["--shardsvr", "--replSet", "shard1", "--bind_ip_all", "--port", "27018"]
+    command: ["--shardsvr", "--replSet", "shard1", "--bind_ip_all", "--port", "27011"]
     healthcheck: *healthcheck
 
   shard1-2:
@@ -74,13 +74,13 @@ services:
     container_name: shard1-2
     restart: always
     ports:
-      - "27012:27018"
+      - "27012:27012"
     networks:
       app-network-2:
         ipv4_address: 173.16.0.12
     volumes:
       - shard1-2-data:/data/db
-    command: ["--shardsvr", "--replSet", "shard1", "--bind_ip_all", "--port", "27018"]
+    command: ["--shardsvr", "--replSet", "shard1", "--bind_ip_all", "--port", "27012"]
     healthcheck: *healthcheck
     
   shard1-3:
@@ -88,13 +88,13 @@ services:
     container_name: shard1-3
     restart: always
     ports:
-      - "27013:27018"
+      - "27013:27013"
     networks:
       app-network-2:
         ipv4_address: 173.16.0.13
     volumes:
       - shard1-3-data:/data/db
-    command: ["--shardsvr", "--replSet", "shard1", "--bind_ip_all", "--port", "27018"]
+    command: ["--shardsvr", "--replSet", "shard1", "--bind_ip_all", "--port", "27013"]
     healthcheck: *healthcheck
 
 
@@ -103,13 +103,13 @@ services:
     container_name: shard2-1
     restart: always
     ports:
-      - "27021:27018"
+      - "27021:27021"
     networks:
       app-network-2:
         ipv4_address: 173.16.0.21
     volumes:
       - shard2-1-data:/data/db
-    command: ["--shardsvr", "--replSet", "shard2", "--bind_ip_all", "--port", "27018"]
+    command: ["--shardsvr", "--replSet", "shard2", "--bind_ip_all", "--port", "27021"]
     healthcheck: *healthcheck
 
   shard2-2:
@@ -117,13 +117,13 @@ services:
     container_name: shard2-2
     restart: always
     ports:
-      - "27022:27018"
+      - "27022:27022"
     networks:
       app-network-2:
         ipv4_address: 173.16.0.22
     volumes:
       - shard2-2-data:/data/db
-    command: ["--shardsvr", "--replSet", "shard2", "--bind_ip_all", "--port", "27018"]
+    command: ["--shardsvr", "--replSet", "shard2", "--bind_ip_all", "--port", "27022"]
     healthcheck: *healthcheck
     
   shard2-3:
@@ -131,13 +131,13 @@ services:
     container_name: shard2-3
     restart: always
     ports:
-      - "27023:27018"
+      - "27023:27023"
     networks:
       app-network-2:
         ipv4_address: 173.16.0.23
     volumes:
       - shard2-3-data:/data/db
-    command: ["--shardsvr", "--replSet", "shard2", "--bind_ip_all", "--port", "27018"]
+    command: ["--shardsvr", "--replSet", "shard2", "--bind_ip_all", "--port", "27023"]
     healthcheck: *healthcheck
 
 networks:
