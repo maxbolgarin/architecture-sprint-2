@@ -6,17 +6,17 @@
 curl localhost:8080
 curl localhost:8080/helloDoc/count
 
-docker exec -it shard1-1 mongosh --port 27011
+docker exec -it shard1-1 mongosh 
 use somedb;
 db.helloDoc.countDocuments();
 exit();
 
-docker exec -it shard2 -1mongosh --port 27021
+docker exec -it shard2-1 mongosh
 use somedb;
 db.helloDoc.countDocuments();
 exit(); 
 
-docker exec -it shard2-2 mongosh --port 27022
+docker exec -it shard2-2 mongosh
 use somedb;
 db.helloDoc.countDocuments();
 exit(); 
