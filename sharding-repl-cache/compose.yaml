@@ -8,6 +8,7 @@ services:
       dockerfile: Dockerfile
     image: kazhem/pymongo_api:1.0.0
     depends_on:
+      - redis
       - configSrv
       - shard1-1
       - shard1-2
